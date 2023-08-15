@@ -42,7 +42,7 @@ public class SpringSecurityConfig {
 	}
 
 	private static final String[] AUTH_WHITELIST = { "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs.yml",
-			"/swagger-ui.html", "/api/v1/auth/**" };
+			"/swagger-ui.html" };
 
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {

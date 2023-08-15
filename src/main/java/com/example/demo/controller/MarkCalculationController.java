@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.MarkCalculationRequest;
 import com.example.demo.entity.Fresher;
 import com.example.demo.service.FresherService;
 

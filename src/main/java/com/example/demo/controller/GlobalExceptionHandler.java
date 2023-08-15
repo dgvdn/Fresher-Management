@@ -6,6 +6,8 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.example.demo.exception.InvalidMarkRangeException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -19,4 +21,10 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body("Internal Server Error: " + ex.getMessage());
 	}
+
+	@ExceptionHandler(InvalidMarkRangeException.class)
+	public ResponseEntity<String> handleInvalidMarkRangeException(InvalidMarkRangeException ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid mark range: " + ex.getMessage());
+	}
+
 }
