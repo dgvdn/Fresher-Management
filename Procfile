@@ -1,1 +1,1 @@
-web: java -jar target/Fresher-Management-1.0.0-SNAPSHOT.jar
+web: java -jar target/qlfresher-1.0.0-SNAPSHOT.jar
