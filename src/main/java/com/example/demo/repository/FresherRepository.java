@@ -18,4 +18,6 @@ public interface FresherRepository extends JpaRepository<Fresher, Integer> {
 	int countByCenter(Center center);
 
 	List<Fresher> findByCenter(Center center);
+
+	Fresher findById(Long id);
 }

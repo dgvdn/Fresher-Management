@@ -123,4 +123,8 @@ public class FresherService {
 
 		return fresherCount;
 	}
+
+	public Fresher findFresherById(Long id) {
+		return fresherRepository.findById(id);
+	}
 }

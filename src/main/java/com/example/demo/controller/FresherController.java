@@ -84,4 +84,14 @@ public class FresherController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Fresher> findFresherById(@PathVariable Long id) {
+		Fresher fresher = fresherService.findFresherById(id);
+		if (fresher == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(fresher, HttpStatus.OK);
+		}
+	}
 }
