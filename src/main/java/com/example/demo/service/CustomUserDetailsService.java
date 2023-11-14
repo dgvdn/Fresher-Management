@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,13 +22,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
 		User user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User not exists by Username or Email"));
 
-		Set<GrantedAuthority> authorities = user.getRoles().stream()
-				.map((role) -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+		// You can set a basic authority for all users, e.g., "ROLE_USER".
+		GrantedAuthority userAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
 
-		return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+		// Create a UserDetails object with a single authority.
+		UserDetails userDetails = new org.springframework.security.core.userdetails.User(username, user.getPassword(),
+				Collections.singletonList(userAuthority));
+
+		return userDetails;
 	}
 }
