@@ -79,4 +79,14 @@ public class CenterController {
 			return new ResponseEntity<>("Fresher or Center not found", HttpStatus.NOT_FOUND);
 		}
 	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Center> findCenterById(@PathVariable Long id) {
+		Center center = centerService.findCenterById(id);
+		if (center != null) {
+			return new ResponseEntity<>(center, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }

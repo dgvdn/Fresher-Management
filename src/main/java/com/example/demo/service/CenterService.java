@@ -64,4 +64,8 @@ public class CenterService {
 		return false;
 
 	}
+
+	public Center findCenterById(Long id) {
+		return centerRepository.findById(id);
+	}
 }
