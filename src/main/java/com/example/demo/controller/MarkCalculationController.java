@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.MarkCalculationRequest;
+import com.example.demo.dto.MarkCalculationResponse;
 import com.example.demo.entity.Fresher;
 import com.example.demo.service.FresherService;
 
@@ -20,7 +21,7 @@ public class MarkCalculationController {
 	private FresherService fresherService;
 
 	@PostMapping("/calculate")
-	public ResponseEntity<Float> calculateMarks(@RequestBody MarkCalculationRequest request) {
+	public ResponseEntity<MarkCalculationResponse> calculateMarks(@RequestBody MarkCalculationRequest request) {
 		Fresher fresher = fresherService.getFresherById(request.getFresherId());
 
 		if (fresher != null) {
@@ -32,7 +33,11 @@ public class MarkCalculationController {
 
 			fresherService.calculateAndSaveMarks(fresher.getId(), mark1, mark2, mark3, averageMark);
 
-			return new ResponseEntity<>(averageMark, HttpStatus.OK);
+			MarkCalculationResponse response = new MarkCalculationResponse();
+			response.setAverageMark(averageMark);
+			response.setResultMessage("Marks calculated and saved successfully.");
+
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

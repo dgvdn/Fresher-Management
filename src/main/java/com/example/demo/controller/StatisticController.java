@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.FresherCountResponse;
 import com.example.demo.entity.TKFresherByCenter;
 import com.example.demo.exception.InvalidMarkRangeException;
 import com.example.demo.service.FresherService;
@@ -25,13 +26,16 @@ public class StatisticController {
 	}
 
 	@GetMapping("/marks")
-	public ResponseEntity<Integer> getFresherCountByMarkRange(@RequestParam int minMark, @RequestParam int maxMark) {
+	public ResponseEntity<FresherCountResponse> getFresherCountByMarkRange(@RequestParam int minMark,
+			@RequestParam int maxMark) {
 		if (minMark < 0 || maxMark < 0 || minMark > maxMark) {
 			throw new InvalidMarkRangeException(minMark, maxMark);
 		}
 
 		int fresherCount = fresherService.countFresherByMark(minMark, maxMark);
-		return new ResponseEntity<>(fresherCount, HttpStatus.OK);
+		FresherCountResponse response = new FresherCountResponse(fresherCount);
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }
