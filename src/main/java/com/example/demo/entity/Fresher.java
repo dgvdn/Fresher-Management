@@ -1,6 +1,10 @@
 package com.example.demo.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,9 +27,26 @@ public class Fresher {
 	private String address;
 	private String email;
 	private String phone;
+	@Enumerated(EnumType.STRING)
+	private FresherStatus status;
+	private LocalDate joiningDate;
 
 	public Fresher() {
 
+	}
+
+	public Fresher(int id, Center center, String name, String language, String address, String email, String phone,
+			FresherStatus status, LocalDate joiningDate) {
+		super();
+		this.id = id;
+		this.center = center;
+		this.name = name;
+		this.language = language;
+		this.address = address;
+		this.email = email;
+		this.phone = phone;
+		this.status = status;
+		this.joiningDate = joiningDate;
 	}
 
 	public Fresher(Center center, String name, String language, String address, String email, String phone) {
@@ -97,6 +118,22 @@ public class Fresher {
 
 	public void removeCenter() {
 		this.center = null;
+	}
+
+	public FresherStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(FresherStatus status) {
+		this.status = status;
+	}
+
+	public LocalDate getJoiningDate() {
+		return joiningDate;
+	}
+
+	public void setJoiningDate(LocalDate joiningDate) {
+		this.joiningDate = joiningDate;
 	}
 
 }

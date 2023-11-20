@@ -94,4 +94,16 @@ public class FresherController {
 			return new ResponseEntity<>(fresher, HttpStatus.OK);
 		}
 	}
+
+	@GetMapping("/center/{centerId}/quarter/{quarter}/year/{year}")
+	public ResponseEntity<List<Fresher>> getFreshersByCenterAndQuarterAndYear(@PathVariable int centerId,
+			@PathVariable int quarter, @PathVariable int year) {
+		List<Fresher> freshers = fresherService.getFreshersByCenterAndQuarterAndYear(centerId, quarter, year);
+
+		if (!freshers.isEmpty()) {
+			return new ResponseEntity<>(freshers, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }

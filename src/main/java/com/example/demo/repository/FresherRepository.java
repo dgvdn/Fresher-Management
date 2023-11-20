@@ -20,4 +20,6 @@ public interface FresherRepository extends JpaRepository<Fresher, Integer> {
 	List<Fresher> findByCenter(Center center);
 
 	Fresher findById(Long id);
+
+	List<Fresher> findByCenterId(int centerId);
 }

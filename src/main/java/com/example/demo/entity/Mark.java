@@ -1,9 +1,14 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name="marks")
+@Table(name = "marks")
 public class Mark {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,18 +16,29 @@ public class Mark {
 	private float mark_1;
 	private float mark_2;
 	private float mark_3;
+	private String comment;
 	private float mark_avg;
-	
+
 	@OneToOne
 	private Fresher fresher;
-	
+
 	public Mark() {
-		
+
+	}
+
+	public Mark(float mark_1, float mark_2, float mark_3, String comment, float mark_avg, Fresher fresher) {
+		super();
+
+		this.mark_1 = mark_1;
+		this.mark_2 = mark_2;
+		this.mark_3 = mark_3;
+		this.comment = comment;
+		this.mark_avg = mark_avg;
+		this.fresher = fresher;
 	}
 
 	public Mark(float mark_1, float mark_2, float mark_3, float mark_avg, Fresher fresher) {
 		super();
-		
 		this.mark_1 = mark_1;
 		this.mark_2 = mark_2;
 		this.mark_3 = mark_3;
@@ -77,12 +93,12 @@ public class Mark {
 	public void setFresher(Fresher fresher) {
 		this.fresher = fresher;
 	}
-	
-	
-	
 
+	public String getComment() {
+		return comment;
+	}
 
-	
-	
-	
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 }

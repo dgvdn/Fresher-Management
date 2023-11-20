@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,4 +128,32 @@ public class FresherService {
 	public Fresher findFresherById(Long id) {
 		return fresherRepository.findById(id);
 	}
+
+	public List<Fresher> getFreshersByCenterAndQuarterAndYear(int centerId, int quarter, int year) {
+		// Retrieve all freshers associated with the specified center
+		List<Fresher> freshers = fresherRepository.findByCenterId(centerId);
+
+		// Filter freshers based on the quarter and year
+		List<Fresher> filteredFreshers = new ArrayList<>();
+
+		for (Fresher fresher : freshers) {
+			LocalDate joiningDate = fresher.getJoiningDate();
+			if (joiningDate != null && isWithinQuarter(joiningDate, quarter, year)) {
+				filteredFreshers.add(fresher);
+			}
+		}
+
+		return filteredFreshers;
+	}
+
+	private boolean isWithinQuarter(LocalDate date, int quarter, int year) {
+		int month = date.getMonthValue();
+
+		// Assuming quarters are defined as 1-3, 4-6, 7-9, 10-12
+		int quarterStartMonth = (quarter - 1) * 3 + 1;
+		int quarterEndMonth = quarterStartMonth + 2;
+
+		return date.getYear() == year && month >= quarterStartMonth && month <= quarterEndMonth;
+	}
+
 }
