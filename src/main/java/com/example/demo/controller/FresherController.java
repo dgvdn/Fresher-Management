@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.FresherResponse;
 import com.example.demo.entity.Fresher;
 import com.example.demo.service.FresherService;
 
@@ -105,5 +106,10 @@ public class FresherController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@GetMapping("/withMarksAndQuarter")
+	public List<FresherResponse> getAllFreshersWithMarksAndQuarter() {
+		return fresherService.getAllFreshersWithMarksAndQuarter();
 	}
 }
