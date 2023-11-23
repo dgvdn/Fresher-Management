@@ -2,7 +2,9 @@ package com.example.demo.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.FresherResponse;
 import com.example.demo.entity.Center;
 import com.example.demo.entity.Fresher;
+import com.example.demo.entity.FresherStatus;
 import com.example.demo.entity.Mark;
 import com.example.demo.entity.TKFresherByCenter;
 import com.example.demo.repository.CenterRepository;
@@ -39,6 +42,9 @@ public class FresherService {
 	}
 
 	public Fresher addFresher(Fresher fresher) {
+		LocalDate date = LocalDate.now();
+		fresher.setJoiningDate(date);
+		fresher.setStatus(FresherStatus.ACTIVE);
 		return fresherRepository.save(fresher);
 	}
 
@@ -57,6 +63,7 @@ public class FresherService {
 			existingFresher.setAddress(fresher.getAddress());
 			existingFresher.setEmail(fresher.getEmail());
 			existingFresher.setPhone(fresher.getPhone());
+			existingFresher.setStatus(fresher.getStatus());
 
 			// Update the center if a new center ID is provided
 			if (fresher.getCenter() != null) {
@@ -171,6 +178,7 @@ public class FresherService {
 		FresherResponse fresherResponse = new FresherResponse();
 		fresherResponse.setId(fresher.getId());
 		fresherResponse.setName(fresher.getName());
+		fresherResponse.setStatus(String.valueOf(fresher.getStatus()));
 
 		// Handle the case when center is null
 		if (fresher.getCenter() != null) {
@@ -206,6 +214,47 @@ public class FresherService {
 		int quarter = (int) Math.ceil(month / 3.0);
 
 		return "Q" + quarter + " " + year;
+	}
+
+	public Map<FresherStatus, Long> getFresherStatusStatistics() {
+		List<Fresher> freshers = fresherRepository.findAll();
+		Map<FresherStatus, Long> statusStatistics = new HashMap<>();
+
+		// Initialize counters
+		for (FresherStatus status : FresherStatus.values()) {
+			statusStatistics.put(status, 0L);
+		}
+
+		// Count freshers for each status
+		for (Fresher fresher : freshers) {
+			FresherStatus status = fresher.getStatus();
+			statusStatistics.put(status, statusStatistics.get(status) + 1);
+		}
+
+		return statusStatistics;
+	}
+
+	public List<FresherResponse> getFreshersByStatus(String status) {
+		// Assuming that FresherStatus is an enum, convert the string to enum
+		FresherStatus fresherStatus = FresherStatus.valueOf(status.toUpperCase());
+		List<Fresher> freshers = fresherRepository.findByStatus(fresherStatus);
+		// Call your repository or service method to get freshers by status
+		return convertToResponseWithMarksAndQuarter(freshers);
+	}
+
+	public Map<String, Long> getFresherCountByLanguage() {
+		List<Fresher> freshers = fresherRepository.findAll();
+
+		// Count freshers for each programming language
+		Map<String, Long> languageCounts = freshers.stream()
+				.collect(Collectors.groupingBy(Fresher::getLanguage, Collectors.counting()));
+
+		return languageCounts;
+	}
+
+	public List<FresherResponse> getFreshersByLanguage(String language) {
+		List<Fresher> freshers = fresherRepository.findFresherByLanguage(language);
+		return convertToResponseWithMarksAndQuarter(freshers);
 	}
 
 }

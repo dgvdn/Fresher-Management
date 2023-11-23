@@ -11,6 +11,7 @@ public class FresherResponse {
 	private float markAvg;
 	private String quarterYear;
 	private String comment;
+	private String status;
 
 	public FresherResponse() {
 		// Default constructor
@@ -88,6 +89,14 @@ public class FresherResponse {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

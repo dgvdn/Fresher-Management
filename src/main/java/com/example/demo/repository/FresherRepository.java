@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.entity.Center;
 import com.example.demo.entity.Fresher;
+import com.example.demo.entity.FresherStatus;
 
 public interface FresherRepository extends JpaRepository<Fresher, Integer> {
 
@@ -22,4 +23,6 @@ public interface FresherRepository extends JpaRepository<Fresher, Integer> {
 	Fresher findById(Long id);
 
 	List<Fresher> findByCenterId(int centerId);
+
+	List<Fresher> findByStatus(FresherStatus status);
 }

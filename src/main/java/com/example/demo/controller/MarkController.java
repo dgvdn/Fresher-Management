@@ -54,7 +54,8 @@ public class MarkController {
 	@PostMapping("/add")
 	public Mark addMark(@RequestBody Mark mark) {
 		Fresher fresher = mark.getFresher();
-		if (fresher == null) {
+		Mark checkMark = markService.getByFresher(fresher);
+		if (checkMark == null) {
 			return markService.saveMark(mark);
 		} else {
 			return markService.updateMark(mark);
